@@ -2,23 +2,38 @@
   <div class="footer-container">
     <!-- 左侧的全选 -->
     <div class="custom-control custom-checkbox">
-      <input type="checkbox" class="custom-control-input" id="cbFull" :checked="true" />
+      <input type="checkbox" class="custom-control-input" id="cbFull" :checked="flag" @change="fullChange" />
       <label class="custom-control-label" for="cbFull">全选</label>
     </div>
 
     <!-- 中间的合计 -->
     <div>
       <span>合计：</span>
-      <span class="total-price">￥{{ 0 }}</span>
+      <span class="total-price">￥{{ SumPrice }}</span>
     </div>
 
     <!-- 结算按钮 -->
-    <button type="button" class="btn btn-primary btn-settle">结算（{{ 0 }}）</button>
+    <button type="button" class="btn btn-primary btn-settle">结算（{{ newSumCount }}）</button>
   </div>
 </template>
 
 <script>
-export default {}
+  import Bus from '@/components/EventBus.js'
+export default {
+  props:['flag','newSumCount','SumPrice'],
+  methods:{
+    fullChange(e){
+      // console.log(e.target.checked);
+      this.$emit('fullNewstate',e.target.checked)
+    }
+  },
+  created (){
+    Bus.$on('share_newprice',val=>{
+        // console.log(val);
+
+    })
+  }
+}
 </script>
 
 <style lang="less" scoped>
